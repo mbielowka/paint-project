@@ -1,15 +1,16 @@
-import {canvas, ctx, resizeCanvas, renderPaths, drawLine, drawRectangle, drawCircle, undo, renderSquare, renderCircle, finishDrawing} from './functions'
+import * as helpers from './functions'
+import { canvas, ctx } from './functions'
 
-const pencilTool = document.querySelector('.pencil')
-const undoTool = document.querySelector('.undo')
+const pencilTool = document.querySelector('.toolbar__pencil')
+const undoTool = document.querySelector('.toolbar__undo')
 
 let xLine
 let yLine
 let isPencilClicked = false
-const square = document.querySelector('.square-shape')
-const circle = document.querySelector('.circle-shape')
+const square = document.querySelector('.toolbar__square-shape')
+const circle = document.querySelector('.toolbar__circle-shape')
 
-resizeCanvas()
+helpers.resizeCanvas()
 
 let isRectangleClicked = false
 let isCircleClicked = false
@@ -19,7 +20,8 @@ const pencilUse = () => {
     isRectangleClicked = false
     isCircleClicked = false
     pencilTool.style.opacity = 0.5
-    if(isPencilClicked === true) {
+
+    if(isPencilClicked) {
         ctx.beginPath()
         square.style.opacity = 1
     }
@@ -48,59 +50,59 @@ circle.addEventListener('click', () => {
 })
 
 const onMouseMove = event => {
-    let x = event.offsetX - xLine
-    let y = event.offsetY - yLine
+    const x = event.offsetX - xLine
+    const y = event.offsetY - yLine
 
     if(isPencilClicked){
         isRectangleClicked = false
-        drawLine(event)
+        helpers.drawLine(event)
     }
 
     if(isRectangleClicked){
         isCircleClicked = false
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        renderSquare(x, y, xLine, yLine)
-        renderPaths()
+        helpers.renderSquare(x, y, xLine, yLine)
+        helpers.renderPaths()
     }
 
     if(isCircleClicked){
         isRectangleClicked = false
         isPencilClicked = false
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        renderCircle(x, xLine, yLine)
-        renderPaths()
+        helpers.renderCircle(x, xLine, yLine)
+        helpers.renderPaths()
     }
 }
 
 canvas.addEventListener('mousedown', event => {
     xLine = event.offsetX
     yLine = event.offsetY
+
     if(isPencilClicked){
         isRectangleClicked = false
         isCircleClicked = false
     }
 
     canvas.addEventListener('mousemove', onMouseMove)
-
 })
 
 canvas.addEventListener('mouseup', event => {
-
-    finishDrawing(onMouseMove, undoTool)
+    helpers.finishDrawing(onMouseMove, undoTool)
+    
     if(isRectangleClicked){
         isPencilClicked = false
         isCircleClicked = false
-        drawRectangle(event, xLine, yLine)
+        helpers.drawRectangle(event, xLine, yLine)
     }
 
     if(isCircleClicked){
         isPencilClicked = false
         isRectangleClicked = false
-        drawCircle(event, xLine, yLine)
+        helpers.drawCircle(event, xLine, yLine)
     }
 })
 
 undoTool.addEventListener('click', () => {
-    undo()
+    helpers.undo()
     ctx.beginPath()
 })

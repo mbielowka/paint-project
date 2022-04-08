@@ -9,14 +9,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     </head>
     <body>
-        <div class = "toolbar">
-            <i class="fa-solid fa-pencil fa fa-3x pencil"></i>
-            <i class="fa-solid fa-arrow-rotate-left fas fa-3x undo"></i>
-            <input class= "colorpicker" type = 'color' value="#0000ff">
-            <input class="slider" type="range" min="1" max="10" value="5">
-            <div class="square-shape"></div>
-            <div class="circle-shape"></div>
-            <div class = "triangleShape"></div>
+        <div class="toolbar">
+            <i class="fa-solid fa-pencil fa fa-3x toolbar__pencil"></i>
+            <i class="fa-solid fa-arrow-rotate-left fas fa-3x toolbar__undo"></i>
+            <input class="toolbar__colorpicker" type = 'color' value="#0000ff">
+            <input class="toolbar__slider" type="range" min="1" max="10" value="5">
+            <div class="toolbar__square-shape"></div>
+            <div class="toolbar__circle-shape"></div>
         </div>
         <canvas id="drawing-board"></canvas>
         <script type="module" src="./index.js"></script>

@@ -9,7 +9,7 @@
     flex-direction: column
     position: fixed
 
-    .pencil
+    &__pencil
         position: absolute
         top: 50px
         width: 50px
@@ -18,7 +18,7 @@
         &:hover
             transform: scale(1.1)
 
-    .undo
+    &__undo
         position: absolute
         width: 50px
         height: 50px
@@ -28,7 +28,7 @@
         &:hover
             transform: scale(1.1)
 
-    .square-shape
+    &__square-shape
         width: 40px
         height: 40px
         border: 5px solid $iconColor
@@ -38,7 +38,7 @@
         &:hover
             transform: scale(1.1)
 
-    .circle-shape
+    &__circle-shape
         position: absolute
         width: 45px
         height: 45px
@@ -49,14 +49,14 @@
         &:hover
             transform: scale(1.1)
 
-    .colorpicker
+    &__colorpicker
         position: absolute
         display: flex
         height: 50px
         justify-self: flex-end
         bottom: 50px
 
-    .slider
+    &__slider
         position: absolute
         bottom: 150px
         width: 80px      

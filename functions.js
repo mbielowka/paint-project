@@ -1,27 +1,27 @@
 export const canvas = document.getElementById('drawing-board')
 export const ctx = canvas.getContext('2d')
-const colorPicker = document.querySelector('.colorpicker')
-const lineWidthSlider = document.querySelector('.slider')
+const colorPicker = document.querySelector('.toolbar__colorpicker')
+const lineWidthSlider = document.querySelector('.toolbar__slider')
 let lines = []
-let allLines = []
+let allShapes = []
 let squares = []
 let circles = []
 
 export const resizeCanvas = () => {
     canvas.width = window.innerWidth - 100
-    canvas.height = 1000
+    canvas.height = window.innerHeight
 }
 
 export const renderPaths = () => {
-    allLines.forEach(line => {
-        if('path' in line){
+    allShapes.forEach(line => {
+        if(line.path){
             ctx.beginPath()
             ctx.lineWidth = line.width
             ctx.strokeStyle = line.color
 
             line.path.forEach(path => {
                 path.forEach(element => {
-                    const[x, y] = element
+                    const [x, y] = element
                     ctx.lineTo(x, y)
                 })
             })
@@ -30,7 +30,8 @@ export const renderPaths = () => {
             ctx.stroke()
             ctx.closePath()
         }
-        if('shape' in line){
+
+        if(line.shape){
             line.shape.forEach(shape => {
                 shape.forEach(([x, y, w, h]) => {
                     ctx.lineWidth = line.width
@@ -39,7 +40,8 @@ export const renderPaths = () => {
                 })
             })
         }
-        if('shapeArc' in line){
+
+        if(line.shapeArc){
             line.shapeArc.forEach(shapeArc => {
                 shapeArc.forEach(([x, y, r, a, b]) => {
                     ctx.lineWidth = line.width
@@ -58,7 +60,6 @@ export const renderSquare = (x, y, xLine, yLine) => {
     ctx.lineWidth = lineWidthSlider.value
     ctx.strokeStyle = colorPicker.value
     ctx.strokeRect(xLine, yLine, x, y)
-    
 }
 
 export const renderCircle = (x, xLine, yLine) => {
@@ -70,7 +71,7 @@ export const renderCircle = (x, xLine, yLine) => {
     ctx.closePath()
 }
 
-export const drawLine = (event) => {
+export const drawLine = event => {
     ctx.lineWidth = lineWidthSlider.value
     ctx.lineCap = 'round'
     ctx.strokeStyle = colorPicker.value
@@ -91,7 +92,7 @@ export const drawRectangle = (event, xLine, yLine) => {
     ctx.strokeStyle = colorPicker.value
     ctx.strokeRect(xLine, yLine, width, height)
     squares = squares.concat([[xLine, yLine, width, height]])
-    allLines = allLines.concat({color:colorPicker.value, width: lineWidthSlider.value, shape:[squares]})
+    allShapes = allShapes.concat({color:colorPicker.value, width: lineWidthSlider.value, shape:[squares]})
     squares = []
 }
 
@@ -104,25 +105,28 @@ export const drawCircle = (event, xLine, yLine) => {
     circles = circles.concat([[xLine, yLine, r, 0, 2 * Math.PI]])
     ctx.stroke()
     ctx.closePath()
-    allLines = allLines.concat({color:colorPicker.value, width: lineWidthSlider.value, shapeArc:[circles]})
+    allShapes = allShapes.concat({color:colorPicker.value, width: lineWidthSlider.value, shapeArc:[circles]})
     circles = []
 }
+
 export const finishDrawing = (onMouseMove, undoTool) => {
     ctx.beginPath()
     canvas.removeEventListener('mousemove', onMouseMove)
+
     if(lines.length < 1) {
         return
     }
 
-    allLines = allLines.concat({color:colorPicker.value, width: lineWidthSlider.value, path:[lines]})
+    allShapes = allShapes.concat({ color:colorPicker.value, width: lineWidthSlider.value, path:[lines] })
     lines = []
-    if(allLines.length > 0) {
+
+    if(allShapes.length > 0) {
         undoTool.style.opacity = 1
     } 
 }
 
 export const undo = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    allLines = allLines.slice(0, -1)
+    allShapes = allShapes.slice(0, -1)
     renderPaths()
 }
