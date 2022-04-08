@@ -1,0 +1,66 @@
+@import 'variable'
+    
+.toolbar
+    height: 100vh
+    width: 100px
+    border: 1px solid $iconColor
+    display: flex
+    align-items: center
+    flex-direction: column
+    position: fixed
+
+    &__pencil
+        position: absolute
+        top: 50px
+        width: 50px
+        height: 50px
+
+        &:hover
+            transform: scale(1.1)
+
+    &__undo
+        position: absolute
+        width: 50px
+        height: 50px
+        top: 150px
+        opacity: 0.5
+
+        &:hover
+            transform: scale(1.1)
+
+    &__square-shape
+        width: 40px
+        height: 40px
+        border: 5px solid $iconColor
+        position: absolute
+        top: 250px
+
+        &:hover
+            transform: scale(1.1)
+
+    &__circle-shape
+        position: absolute
+        width: 45px
+        height: 45px
+        border-radius: 50%
+        border: 5px solid $iconColor
+        top: 330px
+
+        &:hover
+            transform: scale(1.1)
+
+    &__colorpicker
+        position: absolute
+        display: flex
+        height: 50px
+        justify-self: flex-end
+        bottom: 50px
+
+    &__slider
+        position: absolute
+        bottom: 150px
+        width: 80px      
+
+#drawing-board
+    position: relative
+    left: 100px
